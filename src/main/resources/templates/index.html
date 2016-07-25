@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>NDA Chat</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+	<div class="container clearfix"> 
+		<div class="options-container">
+		    <a id="createChat" href="#createChatModal">Create a new chat</a>
+		    
+		    <div th:unless="${#lists.isEmpty(chats)}">
+		    OR
+		    
+		    <a id="joinChat" href="#joinChatModal">Join an existing chat</a>
+		    </div>
+    	</div>
+    </div>
+
+    <div id="createChatModal">
+        <div id="close-container" class="close-createChatModal"> 
+            <img class="close-icon" src="img/close.svg" />
+        </div>
+            
+        <div class="modal-content">
+        	<form id="create-chat-form" role="form" th:action="@{/chat/create}" method="post" th:object="${chat}">
+			    <div>
+			        <label for="chatName">Chat Name</label>
+			        <input type="text" id="chatName" name="chatName" maxlength="50" size="35" th:field="${chat.chatName}"/>
+			    </div>
+			    <div>
+			        <label for="chatDescription">Chat Description</label>
+			        <input type="text" id="chatDescription" name="chatDescription" maxlength="150" size="60" th:field="${chat.chatDescription}"/>
+			    </div>
+			    <div>
+			        <label for="userEmail">Your E-mail:</label>
+			        <input type="text" id="userEmail" name="userEmail" maxlength="50" size="35" th:field="${chat.userEmail}"/>
+			    </div>
+			    <div>
+			        <label for="userName">Your Name:</label>
+			        <input type="text" id="userName" name="userName" maxlength="50" size="35" th:field="${chat.userName}"/>
+			    </div>
+			    <div>
+			        <button type="submit">Save</button>
+			    </div>
+			</form>
+        </div>
+    </div>
+
+    <div id="joinChatModal" th:unless="${#lists.isEmpty(chats)}">
+        <div id="close-container" class="close-joinChatModal"> 
+            <img class="close-icon" src="img/close.svg" />
+        </div>
+            
+        <div class="modal-content">
+        	<form id="join-chat-form" role="form" th:action="@{/chat/join}" method="post" th:object="${chat}">
+			    <div>
+			        <label for="idChat">Chat</label>
+			        <select id="idChat" name="idChat" th:field="${chat.idChat}">
+			        	<option value="">---- Select ----</option>
+			        	<option	  th:each="chat : ${chats}" 
+						          th:value="${chat.id}" 
+						          th:text="${chat.name}"></option>
+			        </select>
+			    </div>
+			    <div>
+			        <label for="userEmail">Your E-mail:</label>
+			        <input type="text" id="userEmail" name="userEmail" maxlength="50" size="35" th:field="${chat.userEmail}"/>
+			    </div>
+			    <div>
+			        <label for="userName">Your Name:</label>
+			        <input type="text" id="userName" name="userName" maxlength="50" size="35" th:field="${chat.userName}"/>
+			    </div>
+			    <div>
+			        <button type="submit">Save</button>
+			    </div>
+			</form>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
+	<script src="js/animatedModal.min.js"></script>
+	<script src="js/validate.js"></script>
+	
+	<script>
+		$("#createChat").animatedModal({
+			modalTarget:'createChatModal',
+			color: '#94C2ED'
+		});
+	</script>
+	
+	<script th:unless="${#lists.isEmpty(chats)}">
+		$("#joinChat").animatedModal({
+	        modalTarget:'joinChatModal',
+			color: '#94C2ED'
+		});
+	</script>
+</body>
+</html>

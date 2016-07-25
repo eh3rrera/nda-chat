@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>NDA Chat</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="container clearfix">    
+	    <div class="chat">
+	      <div class="chat-header clearfix">
+	        
+	        <div class="chat-about">
+	          <div class="chat-name" th:text="${session.chatInfo.chatName}"></div>
+	          <div class="chat-desc" th:text="${session.chatInfo.chatDescription}"></div>
+	        </div>
+	        <div class="loader">
+	        	<img src="/img/loader.gif" />
+	        </div>
+	      </div> <!-- end chat-header -->
+	      
+	      <div class="chat-history">
+	        <ul>
+	        	<li class="clearfix" th:each="msg : ${messages}" >
+	        		<div th:if="${session.chatInfo.idUser == msg.user.id}">
+	        			<div class="message-data">
+							<span class="message-data-name" th:inline="text"><i class="fa fa-circle online"></i> [[${msg.user.name}]]</span>
+							<span class="message-data-time" th:text="${msg.createdAtString}"></span>
+						</div>
+						<div class="message my-message" th:utext="${msg.messageFormatted}">
+						</div>
+					</div>
+					
+	        		<div class="clearfix" th:if="${session.chatInfo.idUser != msg.user.id}">
+						<div class="message-data align-right">
+							<span class="message-data-time" th:text="${msg.createdAtString}"></span> &nbsp; &nbsp;
+							<span class="message-data-name" th:text="${msg.user.name}"></span> <i class="fa fa-circle me"></i>
+						</div>
+						<div class="message other-message float-right" th:utext="${msg.messageFormatted}">
+						</div>
+	        		</div>
+				</li>
+	        </ul>
+	        
+	      </div> <!-- end chat-history -->
+	      
+	      <div class="chat-message clearfix">
+	        <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
+	        
+	        <a id="send-btn" class="float-right button">Send</a>
+	        <a id="request-nda-btn" class="float-left button" th:if="${session.chatInfo.isUserChatOwner}">Request NDA</a>
+	
+	      </div> <!-- end chat-message -->
+	      
+	    </div> <!-- end chat -->
+    
+	</div> <!-- end container -->
+	
+	<script id="message-template" type="text/x-handlebars-template">
+	<li class="clearfix">
+		<div class="message-data">
+			<span class="message-data-name"><i class="fa fa-circle online"></i> {{name}}</span>
+			<span class="message-data-time">{{time}}</span>
+		</div>
+		<div class="message my-message">
+			{{{msg}}}
+		</div>
+	</li>
+	</script>
+
+	<script id="message-response-template" type="text/x-handlebars-template">
+	<li class="clearfix">
+		<div class="message-data align-right">
+			<span class="message-data-time" >{{time}}</span> &nbsp; &nbsp;
+			<span class="message-data-name" >{{name}}</span> <i class="fa fa-circle me"></i>
+		</div>
+		<div class="message other-message float-right">
+			{{{msg}}}
+		</div>
+	</li>
+	</script>
+	
+	<script id="message-system-template" type="text/x-handlebars-template">
+	<li>
+		<div class="message-data-system">
+			<span><b>{{{msg}}}</b></span>
+		</div>
+	</li>
+	</script>
+	
+	<script src="https://js.pusher.com/3.1/pusher.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+	<script th:inline="javascript">
+	    var CHANNEL = /*[[${session.chatInfo.presenceChatName}]]*/ 'NA';
+	    var PUSHER_KEY = /*[[${key}]]*/ 'NA';
+	</script>
+	<script src="js/chat.js"></script>
+</body>
+</html>
