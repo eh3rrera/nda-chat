@@ -24,7 +24,7 @@ You can follow the [tutorial](http://tutorials.pluralsight.com/interesting-apis/
 1. Clone this repository and `cd` into it.
 2. Edit the `config.js` file to enter your Fanout realm information.
 3. Configure a Pusher Webhook for listening to Channel existence and Presence events, both with `http://<SERVER:PORT>/pusher/webhook` as the URL (if your trying the app locally, use Ngrok to get a public URL).
-4. Configure a HelloSign template with:
+4. Configure a HelloSign template (you can use the `nda.pdf` file at the root of this repo) with:
     - A sign field with `Consultant` as the role
     - A custom field with the label `name` 
 5. Configure a HelloSign Webhook with `http://<SERVER:PORT>/hellosign/webhook` as the URL (if your trying the app locally, use Ngrok to get a public URL).
