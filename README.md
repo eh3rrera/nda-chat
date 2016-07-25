@@ -31,7 +31,7 @@ You can follow the [tutorial](http://tutorials.pluralsight.com/interesting-apis/
 6. Start the application with one of the following commands, just replace `XXX` with your Pusher and HelloSign keys (you can also configure the env variables in your IDE):
 
     ```
-    mvn spring-boot:run -Dsprincation.json='{"pusher":{"appId":"XXX", "key":"XXX", "secret":"XXX"},"hellosign":{"apikey":"XXX", "templateId":"XXX", "testMode":true}}'
+    mvn spring-boot:run -Dspring.application.json='{"pusher":{"appId":"XXX", "key":"XXX", "secret":"XXX"},"hellosign":{"apikey":"XXX", "templateId":"XXX", "testMode":true}}'
     ```
     
     Or
